@@ -19,11 +19,11 @@ export default function AdminPage() {
         {/* Quick Actions */}
         <SectionTitle title="Quick Actions" />
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Link href="/upload" className="block">
+          <Link href="/admin/galleries/new" className="block">
             <FeatureCard 
               icon={Plus}
-              title="Upload Photos"
-              description="Add new photos to your galleries with automatic optimization"
+              title="New Gallery"
+              description="Create a new photo gallery with custom settings"
               iconColor="text-blue-600"
             />
           </Link>
