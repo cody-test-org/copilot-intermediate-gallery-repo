@@ -65,10 +65,13 @@ export default function NewGalleryPage() {
 
   // Auto-generate URL slug from name
   const generateSlug = (name: string): string => {
-    return name
+    const slug = name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
+    
+    // Provide fallback for empty slugs
+    return slug || 'gallery';
   };
 
   // Handle input changes
@@ -145,7 +148,7 @@ export default function NewGalleryPage() {
     }
 
     // URL slug validation
-    if (formData.urlSlug && !/^[a-z0-9-]+$/.test(formData.urlSlug)) {
+    if (formData.urlSlug && formData.urlSlug.trim() && !/^[a-z0-9-]+$/.test(formData.urlSlug)) {
       newErrors.urlSlug = 'URL slug can only contain lowercase letters, numbers, and hyphens';
     }
 
@@ -299,7 +302,7 @@ export default function NewGalleryPage() {
           {/* Visibility & Access */}
           <div className="card-base p-6 mb-6">
             <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
-              Visibility &amp; Access
+              Visibility & Access
             </h3>
 
             <div className="space-y-4">
@@ -422,7 +425,7 @@ export default function NewGalleryPage() {
               className="flex items-center justify-between w-full text-left"
             >
               <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
-                SEO &amp; Organization
+                SEO & Organization
               </h3>
               {showSeoSection ? (
                 <ChevronUp className="h-5 w-5 text-slate-600 dark:text-slate-400" />
@@ -442,7 +445,7 @@ export default function NewGalleryPage() {
                     type="text"
                     id="urlSlug"
                     className="form-input"
-                    value={formData.urlSlug}
+                    value={formData.urlSlug || ''}
                     onChange={(e) => handleInputChange('urlSlug', e.target.value)}
                     placeholder="auto-generated-slug"
                     aria-invalid={!!errors.urlSlug}
