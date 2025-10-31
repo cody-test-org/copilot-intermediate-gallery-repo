@@ -47,3 +47,9 @@ export const recentGalleries = [
         lastUpdated: "1 week ago"
     }
 ];
+
+export const mockClients = [
+  { id: 1, name: 'Sarah & John Wedding', email: 'sarah@example.com' },
+  { id: 2, name: 'Tech Corp', email: 'contact@techcorp.com' },
+  { id: 3, name: 'Fashion Brand Co.', email: 'hello@fashionbrand.com' }
+];
