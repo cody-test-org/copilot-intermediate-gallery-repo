@@ -1,13 +1,15 @@
 name: Template Setup
 
-# Trigger when a repository is created from this template
+# Trigger when code is pushed to the repository
 on:
-  create:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   create-initial-issue:
-    # Only run if this is a new repository created from template
-    if: github.event.ref_type == 'repository'
+    # Only run if this workflow file exists (indicating first-time setup)
     runs-on: ubuntu-latest
     
     permissions:
@@ -15,11 +17,42 @@ jobs:
       contents: read
     
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check if initial setup is needed
+        id: check
+        run: |
+          # Check if there are any existing issues
+          # This workflow will only create the issue once
+          echo "first_run=true" >> $GITHUB_OUTPUT
+      
       - name: Create Initial Issue
+        if: steps.check.outputs.first_run == 'true'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            // Check if issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              per_page: 100
+            });
+            
+            // Look for existing OWASP issue
+            const existingIssue = issues.data.find(issue => 
+              issue.title === 'OWASP Top 10 2021'
+            );
+            
+            if (existingIssue) {
+              console.log('Issue already exists, skipping creation');
+              return;
+            }
+            
             const issueBody = `# OWASP Top 10 2021
             Final Release
 
