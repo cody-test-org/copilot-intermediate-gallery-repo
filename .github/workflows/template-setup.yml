@@ -17,20 +17,7 @@ jobs:
       contents: read
     
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      
-      - name: Check if initial setup is needed
-        id: check
-        run: |
-          # Check if there are any existing issues
-          # This workflow will only create the issue once
-          echo "first_run=true" >> $GITHUB_OUTPUT
-      
       - name: Create Initial Issue
-        if: steps.check.outputs.first_run == 'true'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -78,7 +65,7 @@ jobs:
 
             You might need to use --break-system-packages with pip if it gives you an error.
 
-            This installs all requirements including the (OSIB Macro)[https://github.com/OWASP/OSIB]
+            This installs all requirements including the [OSIB Macro](https://github.com/OWASP/OSIB)
 
             ## Test it locally
             You should test your changes locally:
